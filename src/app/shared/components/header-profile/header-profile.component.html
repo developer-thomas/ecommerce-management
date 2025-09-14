@@ -1,0 +1,26 @@
+<section>
+    <div class="flex items-center p-4 bg-white rounded-[35px] shadow-lg">
+        <div class="flex items-center mr-4">
+            <div>
+                <img class="w-10 h-10 bg-gray-400 rounded-full mr-2"
+                    src="https://www.designi.com.br/images/preview/12161378.jpg"
+                    alt="">
+            </div>
+            <div>
+                <p class="text-sm">Seja bem-vindo!</p>
+                <p class="text-sm font-bold">Nome do Usuário</p>
+            </div>
+        </div>
+        <div class="relative">
+            <button mat-icon-button [matMenuTriggerFor]="menu"  class="focus:outline-none">
+                <span class="material-icons text-black">arrow_drop_down</span>
+            </button>
+            
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="logout()">
+                    <span>Sair</span>
+                </button>
+            </mat-menu>
+        </div>
+    </div>
+    </section>

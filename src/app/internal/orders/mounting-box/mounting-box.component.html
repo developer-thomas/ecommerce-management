@@ -1,0 +1,123 @@
+<!-- Componente de Cabeçalho da Página -->
+<div class="flex justify-between p-4">
+    <app-header-page subtitle="Pedidos" title="Montagem de box">
+    </app-header-page>
+
+    <app-header-profile></app-header-profile>
+</div>
+
+<div class="bg-white rounded-lg shadow-lg p-8 m-5">
+    <div class="flex justify-between">
+        <h2 class="text-2xl font-bold mb-4">Perfil do cliente</h2>
+        <p class="text-black underline cursor-pointer">Ver mais</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Primeira linha -->
+        <div class="p-4 rounded-md">
+            <h3 class="text-lg font-semibold">Objetivos</h3>
+            <div class="flex gap-2">
+                <p class="bg-[#D1D98D40] rounded px-3">Sair a noite</p>
+                <p class="bg-[#D1D98D40] rounded px-3">Trabalha</p>
+                <p class="bg-[#D1D98D40] rounded px-3">Trabalha</p>
+            </div>
+        </div>
+        <div class="p-4 rounded-md">
+            <h3 class="text-lg font-semibold">Preferências</h3>
+            <div class="flex gap-2">
+                <p class="bg-[#D1D98D40] rounded px-3">Sair a noite</p>
+                <p class="bg-[#D1D98D40] rounded px-3">Trabalha</p>
+                <p class="bg-[#D1D98D40] rounded px-3">Trabalha</p>
+            </div>
+        </div>
+        <div class="p-4 rounded-md">
+            <h3 class="text-lg font-semibold">Seu estilo</h3>
+            <div class="flex gap-2">
+                <p class="bg-[#D1D98D40] rounded px-3">Sair a noite</p>
+                <p class="bg-[#D1D98D40] rounded px-3">Trabalha</p>
+                <p class="bg-[#D1D98D40] rounded px-3">Trabalha</p>
+            </div>
+        </div>
+
+        <!-- Segunda linha -->
+        <div class="p-4 rounded-md">
+            <h3 class="text-lg font-semibold">Seu corpo</h3>
+            <div class="flex gap-2">
+                <p class="bg-[#D1D98D40] rounded px-3">Sair a noite</p>
+                <p class="bg-[#D1D98D40] rounded px-3">Trabalha</p>
+                <p class="bg-[#D1D98D40] rounded px-3">Trabalha</p>
+            </div>
+        </div>
+        <div class="p-4 rounded-md">
+            <h3 class="text-lg font-semibold">Tamanhos</h3>
+            <div class="flex gap-2">
+                <p class="bg-[#D1D98D40] rounded px-3">Sair a noite</p>
+                <p class="bg-[#D1D98D40] rounded px-3">Trabalha</p>
+                <p class="bg-[#D1D98D40] rounded px-3">Trabalha</p>
+            </div>
+        </div>
+        <div class="p-4 rounded-md">
+            <h3 class="text-lg font-semibold">Medidas</h3>
+            <div class="flex gap-2">
+                <p class="bg-[#D1D98D40] rounded px-3">Sair a noite</p>
+                <p class="bg-[#D1D98D40] rounded px-3">Trabalha</p>
+                <p class="bg-[#D1D98D40] rounded px-3">Trabalha</p>
+            </div>
+        </div>
+
+        <!-- Terceira linha -->
+        <div class="p-4 rounded-md">
+            <h3 class="text-lg font-semibold">O que não gostaria</h3>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                Lorem Ipsum has been the industry's standard dummy</p>
+        </div>
+        <div class="p-4 rounded-md">
+            <h3 class="text-lg font-semibold">O que tem necessidade</h3>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                Lorem Ipsum has been the industry's standard dummy</p>
+        </div>
+    </div>
+</div>
+
+<div class="flex">
+    <!-- Coluna de Categorias -->
+    <div class="w-[10%] p-4">
+        <h3 class="text-xl font-bold mb-4">Categorias</h3>
+        <ul class="list-disc pl-5">
+            <li class="mb-2">Categoria 1</li>
+            <li class="mb-2">Categoria 2</li>
+            <li class="mb-2">Categoria 3</li>
+            <li class="mb-2">Categoria 4</li>
+            <li class="mb-2">Categoria 5</li>
+        </ul>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="w-[90%] p-4">
+        <!-- Campo de Busca e Informações -->
+        <div class="flex justify-between items-center mb-4">
+            <div class="relative w-1/2">
+                <input type="text" placeholder="Procurar"
+                    class="bg-[#F5F5F5] border p-2 rounded-md w-full pl-10 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                <span class="material-icons absolute left-3 top-2 text-black">search</span>
+            </div>
+            <p class="text-gray-600">610 produtos</p>
+            <div (click)="goToCart()" class="cursor-pointer bg-[#F0BF4E] p-2 rounded">
+                <span class="material-icons text-white">shopping_cart</span>
+            </div>
+        </div>
+
+        <!-- Cards de Produtos -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Card de Produto -->
+            <div *ngFor="let produto of produtos" class="bg-white rounded-lg shadow-lg p-4 cursor-pointer"
+                (click)="openProductDetail(produto)">
+                <img [src]="produto.imagem" [alt]="produto.nome" class="w-full h-48 object-cover mb-4">
+                <h3 class="text-lg font-bold uppercase">{{ produto.nome }}</h3>
+                <p class="bg-[#EFE9B0] rounded px-2 inline-block mb-2 mt-2">{{ produto.categoria }}</p>
+                <p class="text-gray-600 line-through mt-2">{{ produto.precoOriginal }}</p>
+                <p class="text-black font-bold text-[1.5rem] mt-2">{{ produto.precoDesconto }}</p>
+                <p class="text-gray-600 mt-2">A vista no Pix</p>
+            </div>
+        </div>
+    </div>
+</div>

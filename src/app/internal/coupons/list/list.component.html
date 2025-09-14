@@ -1,0 +1,23 @@
+<!-- Componente de Cabeçalho da Página -->
+<div class="flex justify-between p-4">
+  <app-header-page subtitle="Usuários" title="Usuários">
+  </app-header-page>
+
+  <app-header-profile></app-header-profile>
+
+</div>
+
+<!--Button -->
+<div class="flex justify-end absolute top-[12rem] right-4">
+  <button (click)="goToNewCoupon()"
+  class="uppercase bg-[#F0BF4E] p-4 rounded text-black font-bold">
+      CADASTRAR
+  </button>
+</div>
+
+<!-- Componente de Tabela -->
+<app-common-table 
+[columns]="columns" 
+[data]="data" 
+[baseRoute]="baseRoute">
+</app-common-table>

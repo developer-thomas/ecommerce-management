@@ -1,0 +1,31 @@
+<section class="flex gap-4 items-center justify-between">
+  <!-- IMAGEM -->
+  <div class="flex flex-col p-4 bg-white rounded-lg shadow-md">
+    <img [src]="product?.imagem ? product.imagem : 'assets/images/product.png'" class="w-44">
+  </div>
+  <!-- INFORMAÇÕES -->
+  <div class="flex flex-col p-4 w-2/5">
+    <p class="font-bold text-lg">{{ product.nome }}</p>
+    <p class="text-stone-400 font-extrabold">{{ product.categoria }}</p>
+    <p class="text-xl font-semibold ">R$ {{ product.precoDesconto }}</p>
+    <p class="text-sm text-gray-500">Em até 10x de R$ {{ (product.precoDesconto / 10).toFixed(2) }} sem juros no cartão ou em 1x
+      no cartão com até 10% OFF</p>
+  </div>
+  <!-- QUANTIDADE -->
+  <div class="flex flex-col items-center gap-3">
+    <span>Quantidade</span>
+    <div class="flex items-center">
+      <button class="bg-neutral-500 text-white rounded-full w-8 h-8 flex items-center justify-center"
+        (click)="decrementQuantity()">-</button>
+      <input type="number" class="mx-2 text-center w-12 pl-4 justify-center flex" [value]="quantity" readonly>
+      <button class="bg-black text-white rounded-full w-8 h-8 flex items-center justify-center"
+        (click)="incrementQuantity()">+</button>
+    </div>
+    <mat-icon (click)="removeAllQuantities()" class="cursor-pointer">delete</mat-icon>
+  </div>
+  <!-- PREÇO -->
+  <div class="flex flex-col items-center gap-3 ml-6 ">
+    <p class=" whitespace-nowrap">Preço à vista:</p>
+    <p class="font-bold text-2xl whitespace-nowrap">R$ {{ (product.precoDesconto * quantity).toFixed(2) }}</p>
+  </div>
+</section>

@@ -1,0 +1,36 @@
+.button-outline{
+    border: 1px solid #000000;
+    color: #000000;
+    background: white;
+    border-radius: 5px;
+    padding: 1rem;
+  }
+  
+  .button{
+    color: black;
+    background: #F0BF4E;
+    border-radius: 5px;
+    padding: 1rem;
+  }
+  
+
+  .button-outline-red {
+    border: 2px solid red;
+    color: red;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  
+    &:hover {
+      background-color: rgba(255, 0, 0, 0.1);
+    }
+  
+    mat-icon {
+      color: red;
+    }
+  }

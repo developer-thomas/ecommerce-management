@@ -1,0 +1,35 @@
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+}
+
+.bg-#F0BF4E {
+  background-color: #F0BF4E;
+}
+
+.bg-#F5F5F5 {
+  background-color: #F5F5F5;
+}
+
+.text-green-500 {
+  color: #10B981;
+}
+
+.focus\:ring-indigo-500:focus {
+  --tw-ring-color: #6366F1;
+}
+
+.focus\:border-indigo-500:focus {
+  border-color: #6366F1;
+}
+

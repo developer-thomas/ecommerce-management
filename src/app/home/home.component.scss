@@ -1,0 +1,11 @@
+.formOutlet {
+    @apply h-screen w-full flex flex-col items-center justify-center;
+  }
+  
+  .images-container {
+    @apply h-screen grid place-items-center;
+    img {
+      @apply w-full h-screen;
+    }
+  }
+  

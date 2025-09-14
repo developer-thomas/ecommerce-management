@@ -1,0 +1,16 @@
+<!-- Componente de Cabeçalho da Página -->
+<div class="flex justify-between p-4">
+    <app-header-page subtitle="Financeiro" title="Financeiro">
+    </app-header-page>
+
+    <app-header-profile></app-header-profile>
+
+</div>
+
+
+<!-- Componente de Tabela -->
+<app-common-table 
+[columns]="columns" 
+[data]="data" 
+[baseRoute]="baseRoute">
+</app-common-table>

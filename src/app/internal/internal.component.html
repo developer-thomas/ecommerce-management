@@ -1,0 +1,57 @@
+<div class="flex h-screen">
+  <!-- Sidebar -->
+  <div class="w-64 bg-[#2D2D2D] h-full text-white flex flex-col">
+    <div class="p-4">
+      <img src="assets/img/logo-white.png" alt="">
+    </div>
+    <nav class="flex-1">
+      <ul>
+        <li class="p-4 flex items-center cursor-pointer" routerLinkActive="active"
+          (click)="navigateTo('/interno/dashboard')">
+          <mat-icon class="mr-2" [ngClass]="{'text-[#F0BF4E]': isActive('/interno/dashboard')}">dashboard</mat-icon>
+          <span class="font-bold" [ngClass]="{'text-[#F0BF4E]': isActive('/interno/dashboard')}">DASHBOARD</span>
+        </li>
+        <li class="p-4 flex items-center cursor-pointer" routerLinkActive="active"
+          (click)="navigateTo('/interno/usuarios')">
+          <mat-icon class="mr-2" [ngClass]="{'text-[#F0BF4E]': isActive('/interno/usuarios')}">people</mat-icon>
+          <span class="font-bold" [ngClass]="{'text-[#F0BF4E]': isActive('/interno/usuarios')}">USUÁRIOS</span>
+        </li>
+        <li class="p-4 flex items-center cursor-pointer" routerLinkActive="active"
+          (click)="navigateTo('/interno/pedidos')">
+          <mat-icon class="mr-2" [ngClass]="{'text-[#F0BF4E]': isActive('/interno/pedidos')}">shopping_cart</mat-icon>
+          <span class="font-bold" [ngClass]="{'text-[#F0BF4E]': isActive('/interno/pedidos')}">PEDIDOS</span>
+        </li>
+        <li class="p-4 flex items-center cursor-pointer" routerLinkActive="active"
+          (click)="navigateTo('/interno/coupons')">
+          <mat-icon class="mr-2" [ngClass]="{'text-[#F0BF4E]': isActive('/interno/coupons')}">receipt_long</mat-icon>
+          <span class="font-bold" [ngClass]="{'text-[#F0BF4E]': isActive('/interno/coupons')}">CUPOM</span>
+        </li>
+        <li class="p-4 flex items-center cursor-pointer" routerLinkActive="active"
+          (click)="navigateTo('/interno/entregas')">
+          <mat-icon class="mr-2" [ngClass]="{'text-[#F0BF4E]': isActive('/interno/entregas')}">local_shipping</mat-icon>
+          <span class="font-bold" [ngClass]="{'text-[#F0BF4E]': isActive('/interno/entregas')}">ENTREGAS</span>
+        </li>
+        <li class="p-4 flex items-center cursor-pointer" routerLinkActive="active"
+          (click)="navigateTo('/interno/produtos')">
+          <mat-icon class="mr-2" [ngClass]="{'text-[#F0BF4E]': isActive('/interno/produtos')}">inventory</mat-icon>
+          <span class="font-bold" [ngClass]="{'text-[#F0BF4E]': isActive('/interno/produtos')}">PRODUTOS</span>
+        </li>
+        <li class="p-4 flex items-center cursor-pointer" routerLinkActive="active"
+          (click)="navigateTo('/interno/financeiro')">
+          <mat-icon class="mr-2" [ngClass]="{'text-[#F0BF4E]': isActive('/interno/financeiro')}">attach_money</mat-icon>
+          <span class="font-bold" [ngClass]="{'text-[#F0BF4E]': isActive('/interno/financeiro')}">FINANCEIRO</span>
+        </li>
+        <li class="p-4 flex items-center cursor-pointer" routerLinkActive="active"
+          (click)="navigateTo('/interno/acessos')">
+          <mat-icon class="mr-2" [ngClass]="{'text-[#F0BF4E]': isActive('/interno/acessos')}">lock</mat-icon>
+          <span class="font-bold" [ngClass]="{'text-[#F0BF4E]': isActive('/interno/acessos')}">ACESSOS</span>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Main content -->
+  <div class="flex-1 p-4 overflow-y-auto">
+    <router-outlet></router-outlet>
+  </div>
+</div>

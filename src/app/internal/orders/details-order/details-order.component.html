@@ -1,0 +1,299 @@
+<!-- Componente de Cabeçalho da Página -->
+<div class="flex justify-between p-4">
+    <app-header-page subtitle="Pedidos" title="Detalhes do pedido">
+    </app-header-page>
+
+    <app-header-profile></app-header-profile>
+</div>
+
+<section class="relative bg-white rounded-lg shadow-lg mt-4">
+    <!-- Título e Ações -->
+    <div class="flex justify-between items-center p-6">
+        <h2 class="text-xl font-bold">Dados do Pedido</h2>
+        <div class="flex items-center space-x-4">
+            <button mat-icon-button>
+                <mat-icon>print</mat-icon>
+            </button>
+            <button mat-icon-button>
+                <mat-icon>{{ order.Status === 'Pago' ? 'toggle_on' : 'toggle_off' }}</mat-icon>
+            </button>
+        </div>
+    </div>
+    <!-- Informações do Pedido -->
+    <div class="flex gap-6 mb-4 p-6">
+        <div>
+            <p class="text-gray-600">Número:</p>
+            <p class="text-lg font-bold">{{ order.Cod }}</p>
+        </div>
+        <div>
+            <p class="text-gray-600">Data:</p>
+            <p class="text-lg font-bold">{{ order.DataAtu }}</p>
+        </div>
+        <div>
+            <p class="text-gray-600">Valor:</p>
+            <p class="text-lg font-bold">{{ order.ValorTotal }}</p>
+        </div>
+        <div>
+            <p class="text-gray-600">Usuário:</p>
+            <p class="text-lg font-bold">{{ order.IDCliente }}</p>
+        </div>
+    </div>
+
+    <!-- Mapa de Status -->
+    <div class="relative bg-[#F8F8F8] p-6">
+        <div class="absolute top-[42%] left-[80px] w-[91%] h-0.5" [ngClass]="{
+            'bg-[#F0BF4E]': getStatusIndex(order.Status) >= 0
+        }"></div>
+        <div class="flex justify-between items-center relative">
+            <div class="flex flex-col items-center">
+                <div class="w-12 h-12 rounded-full flex items-center justify-center" [ngClass]="{
+                    'bg-[#F0BF4E]': getStatusIndex(order.Status) >= 0,
+                    'bg-gray-300': getStatusIndex(order.Status) < 0
+                }">
+                    <span class="material-icons text-white">hourglass_empty</span>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">Aguardando Confirmação</p>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="w-12 h-12 rounded-full flex items-center justify-center" [ngClass]="{
+                    'bg-[#F0BF4E]': getStatusIndex(order.Status) >= 1,
+                    'bg-gray-300': getStatusIndex(order.Status) < 1
+                }">
+                    <span class="material-icons text-white">check_circle</span>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">Confirmado</p>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="w-12 h-12 rounded-full flex items-center justify-center" [ngClass]="{
+                    'bg-[#F0BF4E]': getStatusIndex(order.Status) >= 2,
+                    'bg-gray-300': getStatusIndex(order.Status) < 2
+                }">
+                    <span class="material-icons text-white">inventory_2</span>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">Em Separação</p>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="w-12 h-12 rounded-full flex items-center justify-center" [ngClass]="{
+                    'bg-[#F0BF4E]': getStatusIndex(order.Status) >= 3,
+                    'bg-gray-300': getStatusIndex(order.Status) < 3
+                }">
+                    <span class="material-icons text-white">local_shipping</span>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">Transporte</p>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="w-12 h-12 rounded-full flex items-center justify-center" [ngClass]="{
+                    'bg-[#F0BF4E]': getStatusIndex(order.Status) >= 4,
+                    'bg-gray-300': getStatusIndex(order.Status) < 4
+                }">
+                    <span class="material-icons text-white">done_all</span>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">Entregue</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="flex gap-6 p-4">
+    <p (click)="selectTab('products')"
+        [ngClass]="{'font-bold': tabs === 'products', 'font-normal': tabs !== 'products'}"
+        class="font-bold text-[1.5rem] cursor-pointer">Produtos</p>
+    <p (click)="selectTab('audios')" [ngClass]="{'font-bold': tabs === 'audios', 'font-normal': tabs !== 'audios'}"
+        class="font-bold text-[1.5rem] cursor-pointer">Áudios</p>
+    <p (click)="selectTab('resumo')" [ngClass]="{'font-bold': tabs === 'resumo', 'font-normal': tabs !== 'resumo'}"
+        class="font-bold text-[1.5rem] cursor-pointer">Resumo</p>
+    <p (click)="selectTab('address')" [ngClass]="{'font-bold': tabs === 'address', 'font-normal': tabs !== 'address'}"
+        class="font-bold text-[1.5rem] cursor-pointer">Endereço</p>
+        <p (click)="selectTab('agenda')" [ngClass]="{'font-bold': tabs === 'agenda', 'font-normal': tabs !== 'agenda'}"
+        class="font-bold text-[1.5rem] cursor-pointer">Agenda</p>
+</div>
+
+<div class="p-4">
+    @switch (tabs) {
+    @case ('products') {
+    <div class="flex flex-wrap gap-4 p-8">
+        <!-- Card 1 -->
+        <div class="bg-white rounded-lg shadow-lg p-4 flex w-full md:w-[48%]">
+            <img src="https://s3-alpha-sig.figma.com/img/04a5/d20e/e9b98428957dc986560ef5aa243c2ca7?Expires=1737936000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=fJQnUSyxZMXgOzhTYyOg89JwNaBpYmUP60C9p73ur6hicBpeLLSfnttwSwOhqZMGUbljbUVWSMzPirDYX3-73xVjqydFYJmrIk5rMKD8Po3nsaxOi-~c2SGPMXKolvidOp~u759pwrjjBS8xT8cqrkz~QoKXyRWff2vBETdOBaPv62A4hSEtYTD4Plqhavz2ksR4yQEXmPBmESKkAU8qtAcoLsOaOuYifPJatJQZc4dtpwTQQ5hDj9xbBzXy5XJpGPTypitmE7fPQ1p~ynrP6UOyYRmN1st5pdHf22Wv0y2-OrxGsA3toCjZPkuqiPTJTjDb-LTZY9EKey2z~6I1zA__"
+                alt="Produto 1" class="w-[20%] rounded-lg">
+            <div class="pl-4 w-2/3">
+                <h3 class="text-lg font-bold">Produto 1</h3>
+                <p class="text-gray-600">Descrição do Produto 1</p>
+                <div class="flex justify-between mt-4">
+                    <p class="text-gray-600">Quantidade: 10</p>
+                    <p class="text-gray-600">Valor: R$ 50,00</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-white rounded-lg shadow-lg p-4 flex w-full md:w-[48%]">
+            <img src="https://s3-alpha-sig.figma.com/img/04a5/d20e/e9b98428957dc986560ef5aa243c2ca7?Expires=1737936000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=fJQnUSyxZMXgOzhTYyOg89JwNaBpYmUP60C9p73ur6hicBpeLLSfnttwSwOhqZMGUbljbUVWSMzPirDYX3-73xVjqydFYJmrIk5rMKD8Po3nsaxOi-~c2SGPMXKolvidOp~u759pwrjjBS8xT8cqrkz~QoKXyRWff2vBETdOBaPv62A4hSEtYTD4Plqhavz2ksR4yQEXmPBmESKkAU8qtAcoLsOaOuYifPJatJQZc4dtpwTQQ5hDj9xbBzXy5XJpGPTypitmE7fPQ1p~ynrP6UOyYRmN1st5pdHf22Wv0y2-OrxGsA3toCjZPkuqiPTJTjDb-LTZY9EKey2z~6I1zA__"
+                alt="Produto 2" class="w-[20%] rounded-lg">
+            <div class="pl-4 w-2/3">
+                <h3 class="text-lg font-bold">Produto 2</h3>
+                <p class="text-gray-600">Descrição do Produto 2</p>
+                <div class="flex justify-between mt-4">
+                    <p class="text-gray-600">Quantidade: 5</p>
+                    <p class="text-gray-600">Valor: R$ 100,00</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bg-white rounded-lg shadow-lg p-4 flex w-full md:w-[48%]">
+            <img src="https://s3-alpha-sig.figma.com/img/04a5/d20e/e9b98428957dc986560ef5aa243c2ca7?Expires=1737936000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=fJQnUSyxZMXgOzhTYyOg89JwNaBpYmUP60C9p73ur6hicBpeLLSfnttwSwOhqZMGUbljbUVWSMzPirDYX3-73xVjqydFYJmrIk5rMKD8Po3nsaxOi-~c2SGPMXKolvidOp~u759pwrjjBS8xT8cqrkz~QoKXyRWff2vBETdOBaPv62A4hSEtYTD4Plqhavz2ksR4yQEXmPBmESKkAU8qtAcoLsOaOuYifPJatJQZc4dtpwTQQ5hDj9xbBzXy5XJpGPTypitmE7fPQ1p~ynrP6UOyYRmN1st5pdHf22Wv0y2-OrxGsA3toCjZPkuqiPTJTjDb-LTZY9EKey2z~6I1zA__"
+                alt="Produto 3" class="w-[20%] rounded-lg">
+            <div class="pl-4 w-2/3">
+                <h3 class="text-lg font-bold">Produto 3</h3>
+                <p class="text-gray-600">Descrição do Produto 3</p>
+                <div class="flex justify-between mt-4">
+                    <p class="text-gray-600">Quantidade: 8</p>
+                    <p class="text-gray-600">Valor: R$ 75,00</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="bg-white rounded-lg shadow-lg p-4 flex w-full md:w-[48%]">
+            <img src="https://s3-alpha-sig.figma.com/img/04a5/d20e/e9b98428957dc986560ef5aa243c2ca7?Expires=1737936000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=fJQnUSyxZMXgOzhTYyOg89JwNaBpYmUP60C9p73ur6hicBpeLLSfnttwSwOhqZMGUbljbUVWSMzPirDYX3-73xVjqydFYJmrIk5rMKD8Po3nsaxOi-~c2SGPMXKolvidOp~u759pwrjjBS8xT8cqrkz~QoKXyRWff2vBETdOBaPv62A4hSEtYTD4Plqhavz2ksR4yQEXmPBmESKkAU8qtAcoLsOaOuYifPJatJQZc4dtpwTQQ5hDj9xbBzXy5XJpGPTypitmE7fPQ1p~ynrP6UOyYRmN1st5pdHf22Wv0y2-OrxGsA3toCjZPkuqiPTJTjDb-LTZY9EKey2z~6I1zA__"
+                alt="Produto 4" class="w-[20%] rounded-lg">
+            <div class="pl-4 w-2/3">
+                <h3 class="text-lg font-bold">Produto 4</h3>
+                <p class="text-gray-600">Descrição do Produto 4</p>
+                <div class="flex justify-between mt-4">
+                    <p class="text-gray-600">Quantidade: 12</p>
+                    <p class="text-gray-600">Valor: R$ 60,00</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    @case ('audios') {
+    <div class="p-4">
+        <h2 class="text-xl font-bold mb-4">Áudio</h2>
+        <audio controls class="w-full">
+            <source src="assets/audio/sample-audio.mp3" type="audio/mpeg">
+            Seu navegador não suporta o elemento de áudio.
+        </audio>
+    </div>
+    }
+    @case ('resumo') {
+    <div class="flex gap-3">
+        <!-- Card 1: Resumo da Compra -->
+        <div class="bg-white rounded-lg shadow-lg p-4 w-full md:w-[48%]">
+            <h3 class="text-lg font-bold mb-4">Resumo da Compra</h3>
+            <div class="flex justify-between mb-2">
+                <p class="text-gray-600">Total de Produtos:</p>
+                <p class="text-gray-600">R$ 500,00</p>
+            </div>
+            <div class="flex justify-between mb-2">
+                <p class="text-gray-600">Frete:</p>
+                <p class="text-gray-600">R$ 50,00</p>
+            </div>
+            <div class="flex justify-between mb-2">
+                <p class="text-gray-600">Desconto:</p>
+                <p class="text-gray-600">R$ 20,00</p>
+            </div>
+            <div class="flex justify-between mb-2">
+                <p class="text-gray-600">Subtotal:</p>
+                <p class="text-gray-600">R$ 530,00</p>
+            </div>
+            <div class="flex justify-between mt-4 border-t pt-4">
+                <p class="text-lg font-bold">Total:</p>
+                <p class="text-lg font-bold">R$ 530,00</p>
+            </div>
+        </div>
+        <!-- Card 2: Tipo de Pagamento -->
+        <div class="bg-white rounded-lg shadow-lg p-4 w-full md:w-[48%]">
+            <h3 class="text-lg font-bold mb-4">Tipo de Pagamento</h3>
+            <div class="flex justify-between mb-2">
+                <p class="text-gray-600">Tipo:</p>
+                <p class="text-lg font-bold">Cartão de crédito</p>
+            </div>
+            <div class="flex justify-between mb-2">
+                <p class="text-gray-600">Parcelas:</p>
+                <p class="text-lg font-bold">12x</p>
+            </div>
+        </div>
+    </div>
+    }
+    @case ('address') {
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <!-- Primeira Linha de Dados -->
+        <div class="flex flex-wrap gap-4 mb-4 justify-between w-[60%]">
+            <div>
+                <p class="text-gray-600 font-bold">Logradouro</p>
+                <p>Rua Fictícia</p>
+            </div>
+            <div>
+                <p class="text-gray-600 font-bold">Número</p>
+                <p>123</p>
+            </div>
+            <div>
+                <p class="text-gray-600 font-bold">Bairro</p>
+                <p>Bairro Exemplo</p>
+            </div>
+        </div>
+        <!-- Segunda Linha de Dados -->
+        <div class="flex flex-wrap gap-4 justify-between w-[60%]">
+            <div>
+                <p class="text-gray-600 font-bold">Cidade</p>
+                <p>Cidade Exemplo</p>
+            </div>
+            <div>
+                <p class="text-gray-600 font-bold">Estado</p>
+                <p>Estado Exemplo</p>
+            </div>
+            <div>
+                <p class="text-gray-600 font-bold">CEP</p>
+                <p>12345-678</p>
+            </div>
+        </div>
+    </div>
+    }
+    @case ('agenda') {
+        <div class="flex flex-col lg:flex-row w-full justify-between">
+            <!-- Calendário à esquerda -->
+            <div class="w-full lg:w-[40%] p-4">
+                <mat-calendar [(selected)]="selectedDate" (selectedChange)="onDateChange($event)"></mat-calendar>
+            </div>
+            <!-- Card à direita -->
+            <div class="w-full lg:w-[60%] p-4">
+                <div class="bg-white rounded-lg shadow-lg p-8 mb-4">
+                    <h2 class="text-2xl font-bold">Agende um horário</h2>
+                    <p class="text-gray-600">Agende um horário para a marcação do chamado</p>
+                </div>
+                <!-- Cards pequenos com horários -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div *ngFor="let time of times" class="cursor-pointer"
+                        [ngClass]="{'bg-[#F0BF4E]': selectedTime === time, 'bg-[#D9D9D9]': selectedTime !== time}"
+                        (click)="onTimeSelect(time)">
+                        <div class="p-4 rounded-lg shadow-lg text-center">
+                            {{ time }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    }
+</div>
+@if (!tabs) {
+<div class="flex justify-between p-4">
+    <!-- Card com a imagem -->
+    <div class="bg-white rounded-lg shadow-lg p-6 flex items-center justify-center w-1/2 mr-2">
+        <img src="assets/img/Box 1.png" alt="Box Image" class="w-48 h-48">
+    </div>
+    <!-- Card com o título, subtítulo e botão -->
+    <div class="bg-white rounded-lg shadow-lg p-6 w-1/2 ml-2 flex flex-col justify-between">
+        <div>
+            <h2 class="text-2xl font-bold">Montagem da box</h2>
+            <p class="text-lg text-gray-600">Clique em começar para começar a montar a box</p>
+        </div>
+        <div class="flex justify-end">
+            <button (click)="goToNewBox()" class="bg-[#F0BF4E] text-black font-bold py-2 px-4 rounded">Começar</button>
+        </div>
+    </div>
+</div>
+}

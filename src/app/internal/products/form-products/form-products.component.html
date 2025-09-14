@@ -1,0 +1,307 @@
+<div class="flex justify-between p-4">
+    <app-header-page subtitle="Produtos" title="Adicionar Produto">
+    </app-header-page>
+
+    <app-header-profile></app-header-profile>
+</div>
+
+<div class="relative mt-4">
+    <!-- Linha de fundo -->
+    <div class="absolute top-1/2 left-0 right-0 h-1 bg-[#F5F5F5] ml-[15rem] mr-[15rem]"></div>
+    <!-- Linha de progresso -->
+    <div class="absolute top-1/2 left-0 h-1 bg-[#F0BF4E] ml-[15rem] mr-[15rem]"
+        [ngStyle]="{'width': getProgressWidth()}"></div>
+
+    <div class="flex justify-around items-center relative">
+        <div class="flex items-center">
+            <div [ngClass]="{'bg-[#F0BF4E]': currentStep >= 1, 'bg-[#F5F5F5]': currentStep < 1}"
+                class="rounded-full px-4 py-2">
+                <span>Dados do produto</span>
+            </div>
+        </div>
+        <div class="flex items-center">
+            <div [ngClass]="{'bg-[#F0BF4E]': currentStep >= 2, 'bg-[#F5F5F5]': currentStep < 2}"
+                class="rounded-full px-4 py-2">
+                <span>Variações</span>
+            </div>
+        </div>
+        <div class="flex items-center">
+            <div [ngClass]="{'bg-[#F0BF4E]': currentStep >= 3, 'bg-[#F5F5F5]': currentStep < 3}"
+                class="rounded-full px-4 py-2">
+                <span>Resumo</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (currentStep === 1) {
+<div>
+    <form class="mt-6 w-full" [formGroup]="produtoForm">
+        <div class="flex w-full">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                <!-- Dados do Produto -->
+                <div class="col-span-2">
+                    <h3 class="text-lg font-medium text-gray-700">Dados do Produto</h3>
+                </div>
+                <!-- Primeira Linha de Dados -->
+                <div class="flex w-full col-span-2">
+                    <div class="w-full">
+                        <label for="titulo"
+                            class="block text-sm text-[#707070] font-medium ">Título:</label>
+                        <input type="text" id="titulo" formControlName="titulo" required
+                            class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10 bg-[#F5F5F5]">
+                    </div>
+                    <div class="w-full ml-4">
+                        <label for="categoria"
+                            class="block text-sm  font-medium text-gray-700">Categoria:</label>
+                        <select id="categoria" formControlName="categoria" required
+                            class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-[#F5F5F5]">
+                            <option value="" disabled selected>Selecione uma categoria</option>
+                            <option value="categoria1">Categoria 1</option>
+                            <option value="categoria2">Categoria 2</option>
+                            <option value="categoria3">Categoria 3</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Segunda Linha de Dados -->
+                <div class="w-full flex col-span-3 gap-2">
+                    <div class="w-full">
+                        <label for="quantidade"
+                            class="block text-sm text-[#707070] font-medium text-gray-700">Quantidade:</label>
+                        <input type="number" id="quantidade" formControlName="quantidade" required
+                            class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10 bg-[#F5F5F5]">
+                    </div>
+                    <div class="w-full">
+                        <label for="valor" class="block text-sm text-[#707070] font-medium">Valor:</label>
+                        <input type="text" id="valor" formControlName="valor" required mask="separator.2" prefix="R$ "
+                            class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10 bg-[#F5F5F5]">
+                    </div>
+                    <div class="w-full">
+                        <label for="valorPromocional"
+                            class="block text-sm text-[#707070] font-medium text-gray-700">Valor Promocional:</label>
+                        <input type="text" id="valorPromocional" formControlName="valorPromocional" required
+                            mask="separator.2" prefix="R$ "
+                            class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10 bg-[#F5F5F5]">
+                    </div>
+                </div>
+                <!-- Terceira Linha de Dados -->
+                <div class="col-span-2">
+                    <label for="descricao"
+                        class="block text-sm text-[#707070] font-medium text-gray-700">Descrição:</label>
+                    <textarea id="descricao" formControlName="descricao" required
+                        class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-[#F5F5F5]"></textarea>
+                </div>
+                <!-- Upload de Arquivos e Imagens -->
+                <div class="col-span-2 mt-4">
+                    <div class="mt-4">
+                        <h3 class="text-lg font-medium text-gray-700">Imagens</h3>
+                        <div
+                            class="rounded-md mt-4 p-4 flex flex-col items-center justify-center relative border-dashed border-2 border-gray-400">
+                            <mat-icon class="text-gray-400">cloud_upload</mat-icon>
+                            <p class="text-gray-600 mt-2">Faça upload das imagens da capa 20x20 px</p>
+                            <span>JPEG, PNG</span>
+                            <input type="file" id="imagens" (change)="onImageChange($event)" accept="image/*" multiple
+                                class="mt-1 block w-full opacity-0 absolute inset-0 cursor-pointer">
+                        </div>
+                        <div class="grid grid-cols-7 gap-2 mt-4">
+                            <div *ngFor="let preview of imagePreviews" class="relative w-24 h-24">
+                                <img [src]="preview" alt="Imagem escolhida"
+                                    class="w-full h-full object-cover rounded-md">
+                                <button type="button"
+                                    class="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
+                                    (click)="removeImage(preview)">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+} @if (currentStep === 2) {
+<div>
+    <form class="mt-6" [formGroup]="variacoesForm">
+        <h3 class="text-lg font-medium text-gray-700">Adicione variações de sabor ao produto</h3>
+        <div formArrayName="variacoes" *ngFor="let variacao of variacoes.controls; let i = index">
+            <div [formGroupName]="i" class="flex w-full mt-8">
+                <div class="flex gap-4 w-full items-center">
+                    <!-- Título -->
+                    <div class="w-full">
+                        <label for="titulo" class="block text-sm text-[#707070] font-medium">Título:</label>
+                        <input type="text" id="titulo" formControlName="titulo" required
+                            class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10 bg-[#F5F5F5]">
+                    </div>
+                    <!-- Tipo -->
+                    <div class="w-full">
+                        <label for="tipo" class="block text-sm text-[#707070] font-medium">Tipo:</label>
+                        <select id="tipo" formControlName="tipo" required
+                            class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-[#F5F5F5]">
+                            <option value="" disabled selected>Selecione um tipo</option>
+                            <option value="medidas">Medidas</option>
+                            <option value="cor">Cor</option>
+                            <option value="sabor">Sabor</option>
+                            <option value="tamanho">Tamanho</option>
+                            <option value="material">Material</option>
+                            <option value="estilo">Estilo</option>
+                        </select>
+                    </div>
+                    <!-- Valor -->
+                    <div class="w-full">
+                        <label for="valor" class="block text-sm text-[#707070] font-medium">Valor:</label>
+                        <input type="text" id="valor" formControlName="valor" required mask="separator.2" prefix="R$ "
+                            class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10 bg-[#F5F5F5]">
+                    </div>
+                    <!-- Valor Promocional -->
+                    <div class="w-full">
+                        <label for="valorPromocional" class="block text-sm text-[#707070] font-medium">Valor
+                            Promocional:</label>
+                        <input type="text" id="valorPromocional" formControlName="valorPromocional" required
+                            mask="separator.2" prefix="R$ "
+                            class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10 bg-[#F5F5F5]">
+                    </div>
+                    <!-- Foto Preview -->
+                    <div class="w-16">
+                        <label for="fotoPreview" class="block text-sm text-[#707070] font-medium">Foto:</label>
+                        <div
+                            class="mt-1 block w-full h-[2.5rem] w-[2.5rem] rounded-[15px] shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-[#F5F5F5] relative">
+                            <input type="file" id="fotoPreview" (change)="onFotoChange($event, i)" accept="image/*"
+                                class="absolute inset-0 opacity-0 cursor-pointer">
+                            <div *ngIf="!fotoPreviews[i]"
+                                class="flex items-center justify-center h-full w-full bg-gray-300 rounded-[15px]">
+                                <mat-icon class="text-gray-500">photo</mat-icon>
+                            </div>
+                            <img *ngIf="fotoPreviews[i]" [src]="fotoPreviews[i]" alt="Imagem escolhida"
+                                class="h-full w-full object-cover rounded-[15px]">
+                        </div>
+                    </div>
+                    <!-- Botões -->
+                    <div class="flex items-center mt-[1.5rem]">
+                        @if (i === variacoes.controls.length - 1) {
+                        <button type="button" class="bg-[#F0BF4E] text-white px-4 py-1 rounded-md shadow-sm"
+                            (click)="addVariacao()">
+                            <mat-icon class="mt-1">add</mat-icon>
+                        </button>
+                        }
+                        <button type="button" class="bg-[#FE6C6C] text-white px-4 py-1 rounded-md shadow-sm ml-2"
+                            (click)="removeVariacao(i)">
+                            <mat-icon class="mt-1">delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+} @if (currentStep === 3) {
+<div class="p-4">
+    <div class="grid grid-cols-1 md:grid-cols-10 gap-4 mb-4">
+        <div class="bg-white shadow-lg rounded-lg p-6 col-span-3">
+            <!-- Conteúdo do primeiro card (Carrossel) -->
+            <div class="relative">
+                <!-- Slides -->
+                <div class="carousel">
+                    <div *ngFor="let preview of imagePreviews; let i = index" [class.active]="i === 0"
+                        class="carousel-item">
+                        <img [src]="preview || 'https://via.placeholder.com/600x450'" alt="Slide {{i + 1}}"
+                            class="w-full rounded-lg">
+                    </div>
+                </div>
+                <!-- Bolinhas de navegação -->
+                <div class="absolute bottom-0 left-0 right-0 flex justify-center space-x-2 p-2">
+                    <button *ngFor="let preview of imagePreviews; let i = index"
+                        class="w-3 h-3 bg-gray-400 rounded-full" (click)="goToSlide(i)"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white shadow-lg rounded-lg p-6 col-span-7">
+            <!-- Conteúdo do segundo card -->
+            <div class="flex justify-between items-start mb-4">
+                <h3 class="text-lg font-semibold mb-2">Dados do Produto</h3>
+                <div class="flex space-x-2">
+                    <button mat-icon-button>
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    <button mat-icon-button>
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <mat-slide-toggle></mat-slide-toggle>
+                </div>
+            </div>
+            <!-- Primeira linha de dados -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <p class="text-gray-600 font-bold">Nome</p>
+                    <p>{{ produtoForm.get('titulo')?.value }}</p>
+                </div>
+                <div>
+                    <p class="text-gray-600 font-bold">Categoria</p>
+                    <p>{{ produtoForm.get('categoria')?.value }}</p>
+                </div>
+            </div>
+            <!-- Segunda linha de dados -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <p class="text-gray-600 font-bold">Valor</p>
+                    <p>R$ {{ produtoForm.get('valor')?.value }}</p>
+                </div>
+                <div>
+                    <p class="text-gray-600 font-bold">Valor Promocional</p>
+                    <p>R$ {{ produtoForm.get('valorPromocional')?.value }}</p>
+                </div>
+                <div>
+                    <p class="text-gray-600 font-bold">Quantidade</p>
+                    <p>{{ produtoForm.get('quantidade')?.value }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 mb-4">
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <!-- Conteúdo do terceiro card -->
+            <h3 class="text-lg font-semibold mb-2">Descrição</h3>
+            <p>{{ produtoForm.get('descricao')?.value }}</p>
+        </div>
+    </div>
+
+    @if (!skipVariacoes) {
+    <div class="grid grid-cols-1 gap-4">
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h3 class="text-lg font-semibold mb-2">Variações</h3>
+            <div class="flex gap-2">
+                <div *ngFor="let variacao of variacoes.controls; let i = index" class="shadow-sm rounded-lg p-4">
+                    <div class="w-full h-24 bg-gray-300 rounded-lg mb-2 mx-auto">
+                        <img *ngIf="fotoPreviews[i]" [src]="fotoPreviews[i]" alt="Imagem da Variação"
+                            class="h-full w-full object-cover rounded-lg">
+                    </div>
+                    <p class="text-center font-semibold">{{ variacao.get('titulo')?.value }}</p>
+                    <p class="text-center text-gray-600">R$ {{ variacao.get('valor')?.value }}</p>
+                    <p class="text-center text-red-600">R$ {{ variacao.get('valorPromocional')?.value }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+}
+
+
+<div class="flex justify-between mt-4">
+    <!-- Botões -->
+    <div class="flex justify-end mt-8 gap-4 w-full">
+        <button (click)="previousStep()" [disabled]="currentStep === 1"
+            class="bg-white border border-black text-black py-2 w-[30%] px-4 rounded uppercase">Cancelar</button>
+        <button *ngIf="currentStep === 2" (click)="skipVariacoesStep()"
+            class="bg-[#38383A] text-white font-bold py-2 px-4 rounded w-[30%] uppercase">Continuar sem
+            variações</button>
+        <button (click)="nextStep()" [disabled]="!produtoForm.valid || imagePreviews.length === 0"
+            [ngClass]="{'bg-gray-400 cursor-not-allowed': !produtoForm.valid || imagePreviews.length === 0, 'bg-[#F0BF4E]': produtoForm.valid && imagePreviews.length > 0}"
+            class="text-black font-bold py-2 px-4 rounded w-[30%] uppercase">
+            <span *ngIf="currentStep !== 3">Próximo</span>
+            <span *ngIf="currentStep === 3">Confirmar</span>
+        </button>
+    </div>
+</div>

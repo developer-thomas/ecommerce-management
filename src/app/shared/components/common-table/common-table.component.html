@@ -1,0 +1,76 @@
+<!-- Barra de busca e filtro -->
+<div class="flex items-center mb-4 mt-16">
+    <!-- Campo de busca -->
+     @if (showSearch) {
+    <input matInput (keyup)="applyFilter($event)" placeholder="Buscar" class="mr-4 bg-[#E1E2E6] p-2 rounded-md w-80">
+  
+    <!-- Campo de seleção para filtro de coluna -->
+    <div class="mr-4 ">
+      <select (change)="applyColumnFilter($event)" class="bg-[#E1E2E6] p-2 rounded-md cursor-pointer">
+        <option value="">Todos</option>
+        <option *ngFor="let column of columns" [value]="column">{{ column }}</option>
+      </select>
+    </div>
+  }
+  </div>
+  
+  <!-- Tabela -->
+  <div>
+    <table mat-table [dataSource]="dataSource" matSort class="mat-table bg-white">
+  
+      <!-- Definições Dinâmicas de Colunas -->
+      <ng-container *ngFor="let column of columns" [matColumnDef]="column">
+        <!-- Cabeçalho da coluna -->
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column }}</th>
+        <!-- Células da coluna -->
+        <td mat-cell *matCellDef="let element">
+          <!-- Verifica se a coluna é 'Status' -->
+        <ng-container *ngIf="column === 'Status'; else defaultTemplate">
+          <span [ngClass]="{'bg-green-200 text-green-800': element[column] === 'Ativo', 'bg-red-200 text-red-800': element[column] === 'Inativo'}" class="px-4 py-1 rounded flex items-center justify-center">
+            {{ element[column] }}
+          </span>
+        </ng-container>
+        <!-- Template padrão para outras colunas -->
+        <ng-template #defaultTemplate>
+          <!-- Verifica se a coluna não é 'Ações' -->
+          <ng-container *ngIf="column !== 'Ações'; else actionTemplate">
+            {{ element[column] }}
+          </ng-container>
+          <!-- Template para a coluna de ações -->
+          <ng-template #actionTemplate>
+            <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="edit(element)">Editar</button>
+              <button mat-menu-item (click)="delete(element)">Excluir</button>
+            </mat-menu>
+          </ng-template>
+        </ng-template>
+        </td>
+      </ng-container>
+  
+      <!-- Linha de Cabeçalho -->
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <!-- Linhas de Dados -->
+      <tr mat-row *matRowDef="let row; columns: columns;" (click)="navigateToDetails(row.ID)" class="cursor-pointer">
+      </tr>
+    </table>
+  </div>
+  
+  <!-- Paginação -->
+  <div class="flex justify-end mt-4 gap-3">
+    <button (click)="previousPage()" [disabled]="currentPage === 1"
+      class="bg-[#EDEDED] rounded-full p-2 w-12 cursor-pointer">
+      <mat-icon class="pt-1">chevron_left</mat-icon>
+    </button>
+    <button *ngFor="let page of [].constructor(totalPages); let i = index" (click)="goToPage(i + 1)"
+      [ngClass]="{'bg-[#F0BF4E] text-black': currentPage === i + 1, 'bg-[#EDEDED]': currentPage !== i + 1}"
+      class="rounded-full p-2 w-12">
+      {{ i + 1 }}
+    </button>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages"
+      class="bg-[#EDEDED] rounded-full p-2 w-12 cursor-pointer">
+      <mat-icon class="pt-1">chevron_right</mat-icon>
+    </button>
+  </div>

@@ -1,0 +1,55 @@
+<!-- Componente de Cabeçalho da Página -->
+<div class="flex justify-between p-4">
+    <app-header-page subtitle="Entregas" title="Entregas"></app-header-page>
+    <app-header-profile></app-header-profile>
+</div>
+<div class="flex flex-col lg:flex-row p-4">
+    <!-- Calendário Grande -->
+    <div class="w-full lg:w-[40%] p-4 flex flex-col">
+        <mat-card class="flex-grow">
+            <mat-calendar [(selected)]="selectedDate" (selectedChange)="onDateChange($event)"></mat-calendar>
+        </mat-card>
+    </div>
+    <!-- Calendário Detalhado com Horários -->
+    <div class="w-full lg:w-[60%] p-4 flex flex-col">
+        <mat-card class="flex-grow">
+            <div *ngIf="selectedDate" class="p-6">
+                <div class="flex w-full items-center">
+                    <span class="text-[#B1B1B1] text-[1.5rem] w-[15%]">Semana</span>
+                    <div class="flex space-x-4 justify-between w-[85%]">
+                        <div *ngFor="let day of weekDays" class="text-center text-[1.2rem] cursor-pointer"
+                            (click)="onDayClick(day)"
+                            [ngClass]="{'font-bold': isSelectedDay(day), 'text-[#B1B1B1]': !isSelectedDay(day)}">
+                            <span class="block">{{ getDayName(day) }}</span>
+                            <span class="block">{{ day | date: 'd' }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div *ngFor="let time of times; let i = index" class="flex items-center mb-4 mt-7 relative">
+                        <span class="text-[1.2rem] text-[#B1B1B1]">{{ time }}</span>
+                        <div class="flex-grow border-t ml-2" style="border-color: #B1B1B1;"></div>
+                        <div *ngFor="let delivery of getDeliveriesForTime(time)"
+                            class="absolute left-[4rem] top-0 mt-8 p-2 bg-white shadow-lg rounded-lg"
+                            [ngStyle]="{'margin-left': (i * 20) + 'px', 'z-index': 10}">
+                            <div class="flex items-center">
+                                <img [src]="delivery.photo" alt="Foto" class="w-10 h-10 rounded-full mr-2">
+                                <div>
+                                    <p class="font-bold">{{ delivery.name }}</p>
+                                    <p class="text-sm text-gray-500 flex items-center">
+                                        <span class="w-2 h-2 rounded-full mr-2"
+                                            [ngClass]="{'bg-green-500': delivery.status === 'Em andamento' || 'Confirmado', 'bg-red-500': delivery.status === 'Pendente',}"></span>
+                                        {{ delivery.status }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!selectedDate">
+                <p class="text-lg font-semibold">Selecione uma data no calendário.</p>
+            </div>
+        </mat-card>
+    </div>
+</div>

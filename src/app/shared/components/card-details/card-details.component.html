@@ -1,0 +1,44 @@
+<div class="bg-white shadow-md rounded-lg p-6 flex mt-10">
+  <!-- Foto do Usuário -->
+  <div class="flex-shrink-0">
+    <div class="w-24 h-24 bg-gray-400 rounded-full"></div>
+  </div>
+
+  <!-- Dados do Usuário -->
+  <div class="ml-6 flex-grow">
+    <div class="flex justify-between items-start">
+      <div class="flex flex-col w-[70%] gap-8">
+        <!-- Primeira Linha de Dados -->
+        <div class="flex flex-wrap w-full gap-4 justify-between">
+          <div>
+            <p class="text-gray-600 font-bold">Nome</p>
+            <p>{{ data['Nome do usuário'] }}</p>
+          </div>
+          <div>
+            <p class="text-gray-600 font-bold">Idade</p>
+            <p>{{ data.Idade }}</p>
+          </div>
+          <div>
+            <p class="text-gray-600 font-bold">Status</p>
+            <p>{{ data.Status }}</p>
+          </div>
+        </div>
+        <!-- Segunda Linha de Dados -->
+        <div class="flex flex-wrap w-full gap-4 justify-between">
+          <div>
+            <p class="text-gray-600 font-bold">Email</p>
+            <p>{{ data.Email }}</p>
+          </div>
+          <div>
+            <p class="text-gray-600 font-bold">Telefone</p>
+            <p>{{ data.Telefone }}</p>
+          </div>
+        </div>
+      </div>
+      <!-- Toggle de Bloqueio -->
+      <div class="flex flex-col items-center">
+        <mat-slide-toggle></mat-slide-toggle>
+      </div>
+    </div>
+  </div>
+</div>

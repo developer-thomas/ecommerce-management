@@ -1,0 +1,118 @@
+<section class="p-8">
+    <!-- Cabeçalho do componente -->
+    <app-header-page subtitle="ACESSOS" title="Novo Colaborador"></app-header-page>
+
+    <!-- Formulário de cadastro de Colaborador -->
+    <form class="mt-6" [formGroup]="colaboradtorForm" (ngSubmit)="onSubmit()">
+        <div class="flex w-full">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-[85%]">
+                <!-- Dados do Colaborador -->
+                <div class="col-span-2 mt-6">
+                    <h3 class="text-lg font-medium text-gray-700">Dados do Colaborador</h3>
+                </div>
+                <!-- Terceira Linha de Dados -->
+                <div class="w-full relative">
+                    <label for="nomeUsuario"
+                        class="block text-sm font-medium text-gray-700">Nome:</label>
+                    <input type="text" id="nomeUsuario" formControlName="nomeUsuario" required
+                        class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10 bg-[#F5F5F5]">
+                </div>
+                <div class="w-full ml-4 relative">
+                    <label for="cpf" class="block text-sm font-medium text-gray-700">CPF:</label>
+                    <input type="text" id="cpf" formControlName="cpf" required
+                        class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10 bg-[#F5F5F5]">
+                </div>
+
+                <!-- Acesso -->
+                <div class="col-span-2 mt-6">
+                    <h3 class="text-lg font-medium text-gray-700">Acesso</h3>
+                </div>
+                <!-- Quarta Linha de Dados -->
+                <div class="w-full relative">
+                    <label for="email" class="block text-sm  font-medium text-gray-700">E-mail:</label>
+                    <input type="email" id="email" formControlName="email" required
+                        class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10 bg-[#F5F5F5]">
+                    <span class="material-icons absolute left-3 top-8 text-black">person</span>
+                </div>
+                <div class="w-full ml-4 relative">
+                    <label for="senha" class="block text-sm font-medium text-gray-700">Senha:</label>
+                    <input type="password" id="senha" formControlName="senha" required
+                        class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pl-10 pr-10 bg-[#F5F5F5]">
+                    <span class="material-icons absolute left-3 top-8 text-black">lock</span>
+                    <span class="material-icons absolute right-3 top-8 text-black cursor-pointer"
+                        (click)="togglePasswordVisibility()">
+                        {{ passwordVisible ? 'visibility_off' : 'visibility_off' }}
+                    </span>
+                </div>
+
+                <!-- Titulo Permissões -->
+                <div class="col-span-2 mt-6">
+                    <h3 class="text-lg font-medium text-gray-700">Permissões</h3>
+                </div>
+
+                <!-- Permissões -->
+                <div class="flex flex-col w-full">
+                    <!-- Quinta Linha de Dados -->
+                    <div class="w-full">
+                        <label for="acessos"
+                            class="block text-sm font-medium text-gray-700">Acessos:</label>
+                        <select id="acessos" formControlName="acessos" required
+                            class="mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-[#F5F5F5]">
+                            <option value="" disabled selected>Selecione um acesso</option>
+                            <option value="acesso1">Acesso 1</option>
+                            <option value="acesso2">Acesso 2</option>
+                            <option value="acesso3">Acesso 3</option>
+                        </select>
+                    </div>
+                    <!-- Sexta Linha de Dados -->
+                    <div class="flex gap-2 w-full mt-4">
+                        <div class="justify-center w-[15rem] flex items-center cursor-pointer bg-[#F5F5F5] px-3 py-2 rounded-md shadow-sm"
+                            (click)="togglePermission('dashboard')">
+                            <span class="block text-sm text-gray-900">Dashboard</span>
+                            <mat-icon *ngIf="permissions.dashboard" class="ml-auto text-green-500">check</mat-icon>
+                        </div>
+                        <div class="justify-center w-[15rem] flex items-center cursor-pointer bg-[#F5F5F5] px-3 py-2 rounded-md shadow-sm"
+                            (click)="togglePermission('modulos1')">
+                            <span class="block text-sm text-gray-900">Módulos</span>
+                            <mat-icon *ngIf="permissions.modulos1" class="ml-auto text-green-500">check</mat-icon>
+                        </div>
+                        <div class="justify-center w-[15rem] flex items-center cursor-pointer bg-[#F5F5F5] px-3 py-2 rounded-md shadow-sm"
+                            (click)="togglePermission('modulos2')">
+                            <span class="block text-sm text-gray-900">Módulos</span>
+                            <mat-icon *ngIf="permissions.modulos2" class="ml-auto text-green-500">check</mat-icon>
+                        </div>
+                        <div class="justify-center w-[15rem] flex items-center cursor-pointer bg-[#F5F5F5] px-3 py-2 rounded-md shadow-sm"
+                            (click)="togglePermission('modulos3')">
+                            <span class="block text-sm text-gray-900">Módulos</span>
+                            <mat-icon *ngIf="permissions.modulos3" class="ml-auto text-green-500">check</mat-icon>
+                        </div>
+                        <div class="justify-center w-[15rem] flex items-center cursor-pointer bg-[#F5F5F5] px-3 py-2 rounded-md shadow-sm"
+                            (click)="togglePermission('modulos4')">
+                            <span class="block text-sm text-gray-900">Módulos</span>
+                            <mat-icon *ngIf="permissions.modulos4" class="ml-auto text-green-500">check</mat-icon>
+                        </div>
+                        <div class="justify-center w-[15rem] flex items-center cursor-pointer bg-[#F5F5F5] px-3 py-2 rounded-md shadow-sm"
+                            (click)="togglePermission('modulos5')">
+                            <span class="block text-sm text-gray-900">Módulos</span>
+                            <mat-icon *ngIf="permissions.modulos5" class="ml-auto text-green-500">check</mat-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Foto do Usuário -->
+            <div class="flex flex-col items-center mt-[4.5rem] w-[15%]">
+                <div class="relative w-[9rem] h-[9rem] bg-[#F5F5F5] rounded-full flex items-center justify-center">
+                    <mat-icon class="text-black">person</mat-icon>
+                </div>
+                <p class="mt-2 text-sm text-gray-600">Adicione uma foto</p>
+            </div>
+        </div>
+
+        <!-- Botões -->
+        <div class="flex justify-end mt-8 gap-4 w-full">
+            <button type="button"
+                class="bg-white border border-black text-black py-2 w-[30%] px-4 rounded">Cancelar</button>
+            <button type="submit" class="bg-[#F0BF4E] text-black font-bold py-2 px-4 rounded w-[30%]">Salvar</button>
+        </div>
+    </form>
+</section>

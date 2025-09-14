@@ -1,0 +1,109 @@
+<div class="p-6">
+  <h2 class="text-2xl font-semibold mb-6">Adicionar cupom</h2>
+  
+  <form [formGroup]="couponForm" class="grid grid-cols-2 gap-6">
+    <div>
+      <label class="block text-sm font-medium text-[#707070] mb-2">Código</label>
+      <input 
+        type="text" 
+        formControlName="code"
+        placeholder="Exemplo Preenchido"
+        class="w-full p-3 border border-[#e1e2e6] rounded bg-white focus:outline-none focus:border-[#F0BF4E]">
+      <div *ngIf="couponForm.get('code')?.invalid && couponForm.get('code')?.touched" class="text-red-500 text-sm mt-1">
+        Código é obrigatório
+      </div>
+    </div>
+    
+    <div>
+      <label class="block text-sm font-medium text-[#707070] mb-2">Data início</label>
+      <mat-form-field appearance="outline" class="w-full">
+        <input matInput [matDatepicker]="startPicker" formControlName="startDate" placeholder="DD/MM/AA">
+        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+        <mat-datepicker #startPicker></mat-datepicker>
+      </mat-form-field>
+      <div *ngIf="couponForm.get('startDate')?.invalid && couponForm.get('startDate')?.touched" class="text-red-500 text-sm mt-1">
+        Data de início é obrigatória
+      </div>
+    </div>
+    
+    <div>
+      <label class="block text-sm font-medium text-[#707070] mb-2">Vencimento</label>
+      <mat-form-field appearance="outline" class="w-full">
+        <input matInput [matDatepicker]="endPicker" formControlName="expirationDate" placeholder="DD/MM/AA">
+        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+        <mat-datepicker #endPicker></mat-datepicker>
+      </mat-form-field>
+      <div *ngIf="couponForm.get('expirationDate')?.invalid && couponForm.get('expirationDate')?.touched" class="text-red-500 text-sm mt-1">
+        Data de vencimento é obrigatória
+      </div>
+      <div *ngIf="couponForm.hasError('dateComparison') && couponForm.get('expirationDate')?.touched" class="text-red-500 text-sm mt-1">
+        A data de vencimento não pode ser anterior à data de início
+      </div>
+    </div>
+    
+    <div>
+      <label class="block text-sm font-medium text-[#707070] mb-2">Desconto</label>
+      <input 
+        type="text" 
+        formControlName="discount"
+        placeholder="00%"
+        mask="percent"
+        suffix="%"
+        [validation]="true"
+        class="w-full p-3 border border-[#e1e2e6] rounded bg-white focus:outline-none focus:border-[#F0BF4E]">
+      <div *ngIf="couponForm.get('discount')?.invalid && couponForm.get('discount')?.touched" class="text-red-500 text-sm mt-1">
+        Desconto é obrigatório e deve estar entre 0% e 100%
+      </div>
+    </div>
+    
+    <div>
+      <label class="block text-sm font-medium text-[#707070] mb-2">Quantidade disponível</label>
+      <input 
+        type="number" 
+        formControlName="quantity"
+        placeholder="00000"
+        class="w-full p-3 border border-[#e1e2e6] rounded bg-white focus:outline-none focus:border-[#F0BF4E]">
+      <div *ngIf="couponForm.get('quantity')?.invalid && couponForm.get('quantity')?.touched" class="text-red-500 text-sm mt-1">
+        Quantidade é obrigatória e deve ser maior que 0
+      </div>
+    </div>
+    
+    <div>
+      <label class="block text-sm font-medium text-[#707070] mb-2">Selecionar produto</label>
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-select formControlName="product">
+          <mat-option value="">Selecione um produto</mat-option>
+          <mat-option *ngFor="let product of products" [value]="product.id">{{ product.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div *ngIf="couponForm.get('product')?.invalid && couponForm.get('product')?.touched" class="text-red-500 text-sm mt-1">
+        Produto é obrigatório
+      </div>
+    </div>
+    
+    <div class="col-span-2">
+      <label class="block text-sm font-medium text-[#707070] mb-2">Parceiro</label>
+      <input 
+        type="text" 
+        formControlName="partner"
+        placeholder="Nome do parceiro"
+        class="w-full p-3 border border-[#e1e2e6] rounded bg-white focus:outline-none focus:border-[#F0BF4E]">
+    </div>
+  </form>
+  
+  <div class="flex justify-end gap-4 mt-8">
+    <button 
+      (click)="onCancel()" 
+      class="px-8 py-3 border border-[#707070] rounded uppercase font-medium">
+      CANCELAR
+    </button>
+    <button 
+      [disabled]="couponForm.invalid"
+      (click)="onSave()" 
+      [ngStyle]="['backgroud-color: grey;', couponForm.invalid]"
+      class="px-8 py-3 bg-[#F0BF4E] rounded text-black uppercase font-medium">
+      SALVAR
+    </button>
+  </div>
+</div>
+

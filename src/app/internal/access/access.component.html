@@ -1,0 +1,19 @@
+<!-- Componente de Cabeçalho da Página -->
+<div class="flex justify-between p-4">
+    <app-header-page subtitle="Acessos" title="Acessos">
+    </app-header-page>
+
+    <app-header-profile></app-header-profile>
+</div>
+
+<!--Button -->
+<div class="flex justify-end absolute top-[12rem] right-4">
+    <button (click)="goToAddColaborator()"
+    class="uppercase bg-[#F0BF4E] p-4 rounded text-black font-bold">
+        Novo Colaborador
+    </button>
+</div>
+
+<!-- Componente de Tabela -->
+<app-common-table [columns]="columns" [data]="data" (rowToEdit)="goToEditPage($event)">
+</app-common-table>
